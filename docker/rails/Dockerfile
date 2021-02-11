@@ -1,21 +1,21 @@
 FROM ruby:2.7
 
-ARG APP_NAME
-
 # nodejsとmysql-client (default-mysql-client) のインストール
-RUN apt-get update -qq && apt-get install -y curl apt-transport-https wget nodejs default-mysql-client
+RUN apt-get update -qq && \
+  apt-get install -y curl apt-transport-https wget nodejs default-mysql-client
 
 # Yarn のインストール
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  apt-get update -qq && apt-get install -y yarn
+  apt-get update -qq && \
+  apt-get install -y yarn
 
-RUN mkdir /${APP_NAME}
-WORKDIR /${APP_NAME}
-COPY Gemfile /${APP_NAME}/Gemfile
-COPY Gemfile.lock /${APP_NAME}/Gemfile.lock
+RUN mkdir /rails
+WORKDIR /rails
+COPY ../../rails/Gemfile /rails/Gemfile
+COPY ../../rails/Gemfile.lock /rails/Gemfile.lock
 RUN bundle install
-COPY . /${APP_NAME}
+COPY ../../rails /rails
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
