@@ -1,7 +1,7 @@
 FROM node:slim
 
 RUN mkdir /myapp
-WORKDIR /mayapp
+WORKDIR /myapp
 COPY package.json yarn.lock ./
 
 RUN yarn install

@@ -11,7 +11,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   apt-get install -y yarn
 
 RUN mkdir /myapp
-WORKDIR /mayapp
+WORKDIR /myapp
 COPY Gemfile* ./
 
 RUN bundle install
