@@ -1,4 +1,5 @@
-docker-compose run web rails new . --api --force --no-deps --database=mysql --skip-test --webpacker
+docker-compose run backend rails new . --api --force --no-deps --database=mysql --skip-test --webpacker
+docker-compose run frontend yarn create react-app .
 
 docker-compose build
 

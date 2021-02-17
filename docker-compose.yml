@@ -7,41 +7,38 @@ services:
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
-      - mysql-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - 3306:3306
 
-  web:
+  backend:
     build:
-      context: ./rails
-      dockerfile: ./docker/rails/Dockerfile
-    env_file: .env
+      context: ./backend
     command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - ./rails:/rails
-      - bundle-data:/usr/local/bundle
-      - ~/.ssh:/root/.ssh
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    links:
-      - db
-
-  front:
-    build:
-      context: ./rails
-      dockerfile: ./docker/react/Dockerfile
-    env_file: .env
-    command: sh -c "cd /rails/front && npm start"
-    volumes:
-      - ./rails/front:/rails/front
+      - ./backend:/myapp
       - bundle-data:/usr/local/bundle
       - ~/.ssh:/root/.ssh
     ports:
       - "4000:3000"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+    command: npm start
+    volumes:
+      - ./frontend:/myapp
+      - node_modules:/myapp/node_modules
+      - ~/.ssh:/root/.ssh
+    ports:
+      - "5000:3000"
+    depends_on:
+      - backend
 
 volumes:
-  mysql-data:
+  db-data:
   bundle-data:
+  node_modules:
