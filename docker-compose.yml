@@ -31,7 +31,6 @@ services:
     command: npm start
     volumes:
       - ./frontend:/myapp
-      - node_modules:/myapp/node_modules
       - ~/.ssh:/root/.ssh
     ports:
       - "5000:3000"
@@ -41,4 +40,3 @@ services:
 volumes:
   db-data:
   bundle-data:
-  node_modules:
