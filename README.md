@@ -2,7 +2,7 @@
 
 
 
-docker-compose run backend rails new . --api --force --no-deps --database=mysql --skip-test
+docker-compose run back rails new . --api --force --no-deps --database=mysql --skip-test
 
 
 docker-compose build
