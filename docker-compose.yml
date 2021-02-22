@@ -28,7 +28,7 @@ services:
   front:
     build:
       context: ./front
-    command: npm start
+    command: yarn start
     volumes:
       - ./front:/myapp
       - ~/.ssh:/root/.ssh
